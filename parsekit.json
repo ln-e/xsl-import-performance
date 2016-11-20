@@ -1,0 +1,8 @@
+{
+	"name":"ln-e/xsl-import-performance",
+	"type":"project",
+	"description":"test xsl performance",
+	"require":{
+		"parser":">=3.4.3"
+	}
+}

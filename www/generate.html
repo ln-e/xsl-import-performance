@@ -1,0 +1,79 @@
+@main[]
+    $count(500)
+    ^generateImport[2]($count)
+    ^generateSingle[3]($count)
+###
+
+
+@generateImport[name;count]
+    ^for[i](0;$count){
+        $template[<?xml version="1.0"?>
+        <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+            <xsl:template match="greeter[@type=$i]" mode="mode_$i">
+                <div>some output</div>
+            </xsl:template>
+        </xsl:stylesheet>]
+
+        ^template.save[../data/templates/2/padding/pad${i}.xsl]
+    }
+
+    $template[<?xml version="1.0"?>
+    <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+
+        ^for[i](0;$count){
+        <xsl:import href="padding/pad${i}.xsl" />
+        }
+
+        <xsl:template match="/hello-world">
+            <HTML>
+            <HEAD>
+                <TITLE>123</TITLE>
+            </HEAD>
+            <BODY>
+            <H1>
+                <xsl:value-of select="greeting"/>
+            </H1>
+            <xsl:apply-templates select="greeter"/>
+            </BODY>
+            </HTML>
+        </xsl:template>
+        <xsl:template match="greeter">
+            <DIV>from <I><xsl:value-of select="."/></I></DIV>
+        </xsl:template>
+    </xsl:stylesheet>
+    ]
+    ^template.save[../data/templates/$name/in.xsl]
+###
+
+
+@generateSingle[name;count]
+    $template[<?xml version="1.0"?>
+    <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+
+        ^for[i](0;$count){
+        <xsl:template match="greeter[@type=$i]" mode="mode_$i">
+            <div>some output</div>
+        </xsl:template>
+        }
+
+        <xsl:template match="/hello-world">
+            <HTML>
+            <HEAD>
+                <TITLE>123</TITLE>
+            </HEAD>
+            <BODY>
+            <H1>
+                <xsl:value-of select="greeting"/>
+            </H1>
+            <xsl:apply-templates select="greeter"/>
+            </BODY>
+            </HTML>
+        </xsl:template>
+        <xsl:template match="greeter">
+            <DIV>from <I><xsl:value-of select="."/></I></DIV>
+        </xsl:template>
+    </xsl:stylesheet>
+    ]
+
+    ^template.save[../data/templates/$name/in.xsl]
+###

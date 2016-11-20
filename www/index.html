@@ -1,0 +1,25 @@
+@main[]
+    $name[^if(def $form:name){$form:name}{1}]
+    ^musage[]
+    $sourceDoc[^xdoc::load[data.xml]]
+    $transformedDoc[^sourceDoc.transform[../data/templates/$name/in.xsl]]
+    $var[^transformedDoc.string[$.method[html]]]
+    ^musage[]
+
+    ^navigation[]
+###
+
+
+@navigation[]
+    $files[^file:list[../data/templates/]]
+    ^files.menu{
+        <a href="/index.html?name=$files.name">Type $files.name</a>
+    }[<br>]
+###
+
+
+@musage[][v;now;prefix;message;line]
+    $v[$status:memory]
+    $message[used $v.used free $v.free ever_allocated_since_start $v.ever_allocated_since_start]
+    $result[$message <br>]
+###
